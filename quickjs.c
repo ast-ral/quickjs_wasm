@@ -76,6 +76,7 @@
 #define CONFIG_STACK_CHECK
 #endif
 
+#undef CONFIG_PRINTF_RNDN
 
 /* dump object free */
 //#define DUMP_FREE
