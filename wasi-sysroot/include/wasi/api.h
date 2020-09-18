@@ -1705,6 +1705,7 @@ __wasi_errno_t __wasi_clock_res_get(
     __warn_unused_result__
 ));
 
+#ifndef CUSTOM_SHIMS
 /**
  * Return the time value of a clock.
  * Note: This is similar to `clock_gettime` in POSIX.
@@ -1729,6 +1730,7 @@ __wasi_errno_t __wasi_clock_time_get(
     __import_name__("clock_time_get"),
     __warn_unused_result__
 ));
+#endif
 
 /**
  * Provide file advisory information on a file descriptor.
