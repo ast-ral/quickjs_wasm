@@ -39,8 +39,21 @@ int eval_code(JSContext *context, const void *code, int code_len) {
 	const char *filename = "<eval>";
 	JSValue val = JS_Eval(context, code, code_len, filename, 0);
 	int is_exc = JS_IsException(val);
-	const char *str = JS_ToCString(context, val);
-	fprintf(stderr, "%s", str);
+	
+	if (is_exc > 0) {
+		JSValue exc = JS_GetException(context);
+		JSValue toString = JS_GetPropertyStr(context, exc, "toString");
+		JSValue errorString = JS_Call(context, toString, exc, 0, NULL);
+		const char *str = JS_ToCString(context, errorString);
+		fprintf(stderr, "%s", str);
+		JS_FreeValue(context, errorString);
+		JS_FreeValue(context, toString);
+		JS_FreeValue(context, exc);
+	} else {
+		const char *str = JS_ToCString(context, val);
+		fprintf(stderr, "%s", str);
+	}
+	
 	JS_FreeValue(context, val);
 	return is_exc;
 }
